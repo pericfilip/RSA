@@ -154,7 +154,7 @@ public class Main {
                System.out.println("Please enter something to decrypt");
                Scanner scanString = new Scanner(System.in);
                String decryptString = scanString.nextLine();
-                System.out.println(encrypt(testText, readKey(currentPrivKey)));
+                //System.out.println(encrypt(testText, readKey(currentPrivKey)));
                System.out.println(decrypt(decryptString, readKey(currentPrivKey)));
            }
            if(select == 2){
