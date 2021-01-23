@@ -8,6 +8,8 @@ import javax.crypto.*;
 import java.util.Scanner;
 
 public class Main {
+    static String currentPubKey;
+    static String currentPrivKey;
 
    public static void saveKey(String fileName, KeyPair key) {
         try {
@@ -72,10 +74,12 @@ public class Main {
        //meny
        while(true){
            while (true){
+
+
        System.out.println(" ");
        System.out.println("Hello, Please decide what you want to do");
        System.out.println("1. Create key pair");
-       System.out.println("2. Load keypair");
+       System.out.println("2. Load keypair (must allways first be loaded)");
        System.out.println("3. Encrypt message");
        System.out.println("4. Decrypt message");
        System.out.println("5. to exit");
@@ -94,13 +98,23 @@ public class Main {
 
        }
 //-------------------------2-----------------------------------------------
+
+
        if(userSelect == 2){
 
 
-               Scanner scan = new Scanner(System.in);
-               System.out.println("Please enter the key you want to load");
-               String fileNames = scan.nextLine();
-               readKey(fileNames);
+                Scanner scan = new Scanner(System.in);
+                System.out.println("Please enter the public key you want to use");
+                String pubFile = scan.nextLine();
+                currentPubKey = pubFile+"_pub.key";
+
+                System.out.println("Please enter the private key you want to use");
+                String privFile = scan.nextLine();
+                currentPrivKey = privFile+"_priv.key";
+                System.out.println(currentPrivKey + " Has been loaded");
+                System.out.println(currentPubKey + " Has been loaded");
+
+               //readKey(fileNames);;
 
        }
 //-------------------------3-----------------------------------------------
@@ -112,8 +126,8 @@ public class Main {
                Scanner scanString = new Scanner(System.in);
                System.out.println("Please enter a word or a sentance that you want to encrypt");
                String messageToEncrypt = scanString.nextLine();
-               System.out.println(encrypt(messageToEncrypt, readKey("Filip_pub.key")));
-               System.out.println(messageToEncrypt);
+               System.out.println(encrypt(messageToEncrypt, readKey(currentPubKey)));
+               //System.out.println(messageToEncrypt);
               // scanString.close();
            }
            if(select == 2){
@@ -123,7 +137,7 @@ public class Main {
                    FileWriter fw = new FileWriter("EncryptedText.txt");
                    String fileString = scanToFile.nextLine();
 
-                   fw.write(encrypt(fileString, readKey("Filip_pub.key")));
+                   fw.write(encrypt(fileString, readKey(currentPubKey)));
                     fw.close();
                } catch (Exception e){
 
@@ -140,8 +154,8 @@ public class Main {
                System.out.println("Please enter something to decrypt");
                Scanner scanString = new Scanner(System.in);
                String decryptString = scanString.nextLine();
-              // System.out.println(encrypt(testText, readKey("Filip_priv.key")));
-               System.out.println(decrypt(decryptString, readKey("Filip_priv.key")));
+                System.out.println(encrypt(testText, readKey(currentPrivKey)));
+               System.out.println(decrypt(decryptString, readKey(currentPrivKey)));
            }
            if(select == 2){
                try {
@@ -152,7 +166,7 @@ public class Main {
                    BufferedReader br = new BufferedReader(fr);
 
                    String stringFromFile = br.readLine();
-                   System.out.println(decrypt(stringFromFile, readKey("Filip_priv.key")));
+                   System.out.println(decrypt(stringFromFile, readKey(currentPrivKey)));
 
                     fr.close();
                } catch (Exception e){
